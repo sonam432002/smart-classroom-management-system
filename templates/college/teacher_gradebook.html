@@ -1,0 +1,186 @@
+{% extends 'college/teacherbase.html' %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gradebook and Assessment</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+    .container1 {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      text-align: center;
+      color: #007bff;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    .btn {
+      padding: 10px 20px;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .student-panel {
+      margin-top: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+    }
+    .student-panel label {
+      font-weight: bold;
+      color: #007bff;
+    }
+    .student-panel select {
+      padding: 8px;
+      width: 200px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    .student-panel .btn {
+      margin-top: 10px;
+    }
+    .student-grades {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f2f2f2;
+    }
+    .student-grades p {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container1">
+    <h1>Gradebook and Assessment System</h1>
+  
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="btn" type="submit">Add</button>
+    </form>
+  
+    <div id="studentGrades" class="student-grades"></div>
+    
+    <h2>Teacher's Panel</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Student Name</th>
+          <th>Class</th>
+          <th>Subject List</th>
+          <th>Assignment Grade</th>
+          <th>Exam Grade</th>
+          <th>Project Grade</th>
+          <th>Action</th> 
+        </tr>
+      </thead>
+      <tbody id="gradebookBody">
+        {% for grade in grades %}
+        <tr>
+          <td>{{ grade.student_name.get_name }}</td>
+          <td>{{ grade.student_class }}</td>
+          <td>{{ grade.subject }}</td>
+          <td>{{ grade.get_assignment_grade_letter }}</td> <!-- Display assignment grade as letter -->
+          <td>{{ grade.get_exam_grade_letter }}</td> <!-- Display exam grade as letter -->
+          <td>{{ grade.get_project_grade_letter }}</td> <!-- Display project grade as letter -->
+          <td>
+            <button class="btn btn-blue upgrade-btn" data-grade-id="{{ grade.id }}">Upgrade</button>
+            <form class="grade-form" id="form{{ grade.id }}" style="display:none;">
+              <label for="assignmentGrade">Assignment Grade:</label>
+              <input type="number" id="assignment{{ grade.id }}" name="assignment_grade" value="{{ grade.assignment_grade }}"><br>
+              <label for="examGrade">Exam Grade:</label>
+              <input type="number" id="exam{{ grade.id }}" name="exam_grade" value="{{ grade.exam_grade }}"><br>
+              <label for="projectGrade">Project Grade:</label>
+              <input type="number" id="project{{ grade.id }}" name="project_grade" value="{{ grade.project_grade }}"><br>
+              <button class="btn btn-blue" type="submit" >Save</button> 
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Add event listener to all upgrade buttons
+    var upgradeButtons = document.querySelectorAll('.upgrade-btn');
+    upgradeButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        var gradeId = button.dataset.gradeId;
+        var form = document.getElementById('form' + gradeId);
+        form.style.display = 'block';
+      });
+    });
+  
+    // Add event listener to all grade forms
+    var gradeForms = document.querySelectorAll('.grade-form');
+    gradeForms.forEach(function(form) {
+      form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+  
+        var gradeId = form.getAttribute('id').replace('form', ''); // Extract grade ID
+        var formData = new FormData(form); // Create FormData object from the form
+        
+        // Send AJAX request to update grades
+        fetch('/update_grade/' + gradeId + '/', {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'X-CSRFToken': '{{ csrf_token }}' // Add CSRF token to headers
+          }
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.success) {
+            alert('Grades updated successfully!');
+            // You can perform additional actions here, such as updating the UI
+          } else {
+            alert('Failed to update grades: ' + data.error);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    });
+  });
+</script>
+
+</body>
+</html>
+{% endblock %}

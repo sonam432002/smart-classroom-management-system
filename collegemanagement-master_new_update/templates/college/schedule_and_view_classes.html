@@ -1,0 +1,292 @@
+<!-- schedule_and_view_classes.html -->
+{% extends 'college/teacherbase.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="section-title">Schedule a Class</h1>
+    <form method="post" class="form-inline text-danger custom-label  ">
+        {% csrf_token %}
+        
+        
+        {{ form.as_p }}
+
+        
+        <form>
+            <div class="form-group">
+                <label for="start_date" class="label-style">Start Date:</label>
+                <input type="date" id="start_date" name="start_date" class="form-control input-style input-large">
+            </div>
+            <div class="form-group">
+                <label for="start_time" class="label-style">Start Time:</label>
+                <input type="time" id="start_time" name="start_time" class="form-control input-style input-large">
+            </div>
+            <div class="form-group">
+                <label for="end_date" class="label-style ">End Date:</label>
+                <input type="date" id="end_date" name="end_date" class="form-control input-style input-large">
+            </div>
+            <div class="form-group">
+                <label for="end_time" class="label-style">End Time:</label>
+                <input type="time" id="end_time" name="end_time" class="form-control input-style input-large">
+            </div>
+        
+            <button type="submit" class="btn btn-primary submit-btn">Schedule</button>
+        </form>
+    </form>
+
+    <br>
+    <hr>
+
+    <h2 class="section-title">Class Schedule</h2>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Teacher</th>
+                    <th>Location</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for classroom in classes %}
+                    <tr>
+                        <td>{{ classroom.subject }}</td>
+                        <td>{{ classroom.teacher }}</td>
+                        <td>{{ classroom.location }}</td>
+                        <td>{{ classroom.start_time }}</td>
+                        <td>{{ classroom.end_time }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty-message">No classes scheduled yet.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="calendar-container" id="calendar-container"></div>
+    <script src="script.js"></script>
+</body>
+</html>
+<style>
+    .calendar-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-gap: 5px;
+    }
+    
+    .day {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+    }
+    
+    .month-name {
+        font-weight: bold;
+        text-align: center;
+    }
+    
+/* Custom CSS styles for the schedule and view classes page */
+
+/* Style for the section titles */
+.section-title {
+    color: #007bff; /* Blue color for section title */
+    text-align: center; /* Center-align text */
+    margin-top: 20px; /* Top margin */
+    
+}
+
+/* Style for the form labels */
+.label-style {
+    color: #007bff; /* Blue color for labels */
+    font-weight: bold; /* Bold font */
+    margin-right: 5px; /* Margin between label and input */
+}
+
+/* Style for the form input fields */
+.input-style {
+    border-color: #007bff; /* Blue border color */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Style for the submit button */
+.submit-btn {
+    margin-top: 10px; /* Top margin */
+}
+
+/* Style for the table */
+.table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse border spacing */
+}
+
+/* Style for table headers */
+.table th {
+    background-color: #007bff; /* Blue background */
+    color: #ffffff; /* White text color */
+    font-weight: bold; /* Bold font */
+    padding: 10px; /* Padding for better spacing */
+}
+
+/* Style for table rows */
+.table td {
+    border: 1px solid #dee2e6; /* Light gray border */
+    padding: 8px; /* Padding for better spacing */
+}
+
+/* Style for empty table message */
+.empty-message {
+    text-align: center;
+    font-style: italic;
+    color: #6c757d; /* Dark gray color */
+}
+
+/* Custom CSS styles for the schedule and view classes page */
+
+/* Style for subject, teacher, and location */
+.subject, .teacher, .location {
+    font-weight: bold; /* Bold font */
+    color: #007bff; /* Blue color */
+}
+.form-group {
+    display: inline-block;
+    margin-right: 10px; /* Adjust margin as needed */
+}
+
+form {
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid black;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 70%; /* Set the width of the form */
+    margin: 0 auto; /* Center the form horizontally */
+}
+
+
+.form-group {
+    margin-bottom: 15px;
+}
+.label-style {
+    font-weight: bold;
+}
+.input-style {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.submit-btn {
+    width: 20%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    display: block;
+    margin: 0 auto; /* This will center the button horizontally */
+}
+
+.submit-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Custom styling for text inputs */
+    form p input[type="text"],
+    form p input[type="password"] {
+        font-size: 22px;
+        font-family: Arial, sans-serif;
+        
+        /* Add any other styling you want */
+    }
+
+    .input-large {
+        font-size: 18px; /* Adjust the font size as needed */
+        
+    }
+
+    .custom-label {
+        color: #007bff;
+        font-weight: bold;
+        font-size: 18px; /* Adjust font size as needed */
+    }
+    
+</style>
+<script>document.addEventListener('DOMContentLoaded', function() {
+    const calendarContainer = document.getElementById('calendar-container');
+
+    // Get the current date
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const currentMonth = currentDate.getMonth();
+
+    // Function to get the number of days in a month
+    function daysInMonth(month, year) {
+        return new Date(year, month + 1, 0).getDate();
+    }
+
+    // Function to generate the calendar
+    function generateCalendar(month, year) {
+        const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        
+        // Clear previous calendar
+        calendarContainer.innerHTML = '';
+
+        // Create header with month name
+        const header = document.createElement('div');
+        header.classList.add('month-name');
+        header.textContent = `${monthNames[month]} ${year}`;
+        calendarContainer.appendChild(header);
+
+        // Create day labels
+        const dayLabels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        dayLabels.forEach(dayLabel => {
+            const day = document.createElement('div');
+            day.classList.add('day');
+            day.textContent = dayLabel;
+            calendarContainer.appendChild(day);
+        });
+
+        // Get the first day of the month
+        const firstDay = new Date(year, month, 1).getDay();
+
+        // Generate calendar days
+        for (let i = 0; i < firstDay; i++) {
+            const day = document.createElement('div');
+            day.classList.add('day', 'empty');
+            calendarContainer.appendChild(day);
+        }
+
+        const totalDays = daysInMonth(month, year);
+        for (let i = 1; i <= totalDays; i++) {
+            const day = document.createElement('div');
+            day.classList.add('day');
+            day.textContent = i;
+            calendarContainer.appendChild(day);
+        }
+    }
+
+    // Generate calendar for current month
+    generateCalendar(currentMonth, currentYear);
+});
+ </script>
+ 
+
+{% endblock %}

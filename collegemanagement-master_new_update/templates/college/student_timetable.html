@@ -1,0 +1,94 @@
+{% extends 'college/studentbase.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Upload Image</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #343a40;
+        }
+
+        .image-upload-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .upload-button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .upload-button:hover {
+            background-color: #0056b3;
+        }
+
+        .uploaded-images {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .uploaded-image {
+            margin: 10px;
+            position: relative;
+        }
+
+        .uploaded-image img {
+            max-width: 200px;
+            max-height: 200px;
+        }
+
+        .delete-button {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            padding: 5px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+		.uploaded-image img {
+    max-width: 1000px;
+    max-height: 1000px;
+}
+    </style>
+</head>
+
+<body>
+   
+
+    <!-- Display Uploaded Images -->
+    <div class="uploaded-images">
+        {% for image in uploaded_images %}
+        <div class="uploaded-image">
+            <img src="{{ image.image.url }}" alt="Uploaded Image">
+            
+        </div>
+        {% empty %}
+        <p>No images uploaded yet.</p>
+        {% endfor %}
+    </div>
+</body>
+
+</html>
+{% endblock content %}

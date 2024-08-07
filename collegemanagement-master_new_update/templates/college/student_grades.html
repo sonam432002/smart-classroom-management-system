@@ -1,0 +1,6 @@
+<h1>Your Grades</h1>
+<ul>
+  {% for grade in grades %}
+    <li>{{ grade.assignment }} - {{ grade.score }}</li>
+  {% endfor %}
+</ul>

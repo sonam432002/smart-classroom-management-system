@@ -1,0 +1,116 @@
+{% extends 'college/teacherbase.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Box</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+   <style>
+    /* Custom CSS for chat box */
+    .chat-container {
+        height: 400px;
+        overflow-y: scroll;
+    }
+    .message {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    width: fit-content; /* Adjusts the width automatically based on content */
+    max-width: 70%; /* Limits the width to 70% of the container */
+}
+
+    .message.sender {
+        text-align: left;
+        background-color: #dcf8c6; /* Light green for sender */
+        margin-left: auto; /* Pushes the sender's messages to the right */
+    }
+    .message.receiver {
+        text-align: left;
+        background-color: #f1f0f0; /* Light grey for receiver */
+        margin-right: auto; /* Pushes the receiver's messages to the left */
+    }
+</style>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        Chat Box
+                    </div>
+                    <div class="card-body chat-container" id="chat-container">
+                        <!-- Messages will be displayed here -->
+                        
+                        {% for message in student_messages %}
+                            <div class="message receiver"><strong>{{ message.sender }}:</strong> {{ message.body }}</div>
+                        {% endfor %}
+                        {% for message in teacher_messages %}
+                            <div class="message sender"><strong>{{ message.sender }}:</strong> {{ message.body }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer">
+                        <!-- Message input field -->
+                        <form method="post" id="message-form">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                           
+                            <!-- Send button -->
+                            <button type="submit" class="btn btn-primary mt-2 float-right">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Dropdown list for selecting a student -->
+               
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap and jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Custom JS for chat functionality -->
+    <script>
+        
+    $(document).ready(function() {
+        // Function to send message
+        function sendMessage() {
+            var message = $('#message-input').val().trim();
+            var recipientId = $('#student-select').val();  // Get the selected student's ID
+            if (message !== '') {
+                // Add the selected student's ID as a data attribute to the message container
+                $('#chat-container').append('<div class="message sender"><strong>You:</strong> ' + message + '</div>');
+                $('#message-input').val('');
+                // Scroll to bottom of chat container
+                var container = document.getElementById('chat-container');
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        // Send message when Send button is clicked
+        $('#send-btn').click(function(e) {
+            e.preventDefault();
+            sendMessage();
+        });
+
+        // Send message when Enter key is pressed in input field
+        $('#message-input').keypress(function(e) {
+            if (e.keyCode == 13) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    });
+</script>
+
+    </script>
+</body>
+</html>
+{% endblock content %}

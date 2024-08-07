@@ -1,0 +1,79 @@
+{% extends 'college/adminbase.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resource Management</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <style media="screen">
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+        .container {
+            margin-top: 50px;
+        }
+        .file-info {
+            margin-bottom: 10px;
+        }
+        .file-actions {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Resource Management</h2>
+
+        <!-- Upload Form -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input type="text" class="form-control" id="title" name="title">
+            </div>
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea class="form-control" id="description" name="description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="file">Choose File:</label>
+                <input type="file" class="form-control-file" id="file" name="file">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Resource</button>
+        </form>
+
+        <!-- Display Uploaded Files -->
+        <h3>Uploaded Files</h3>
+        <ul class="list-group">
+            {% for resource in resources %}
+                <li class="list-group-item">
+                    <div class="file-info">
+                        <strong>Title:</strong> {{ resource.title }}<br>
+                        <strong>Description:</strong> {{ resource.description }}<br>
+                        <strong>Uploader:</strong> {{ resource.uploaded_by.username }}<br>
+                        {% if resource.file %}
+                            <strong>File:</strong>
+                            <a href="{{ resource.file.url }}" download>{{ resource.file.name }}</a>
+                            
+                        {% else %}
+                            <span>No file available for download</span>
+                        {% endif %}
+                    </div>
+                    <div class="file-actions">
+                        <form method="post" action="{% url 'delete_resource' pk=resource.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete</button>                <a href="{% url 'download_resource' pk=resource.pk %}" class="btn btn-primary" role="button">Download</a><br>
+                        </form>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="list-group-item">No files uploaded yet.</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
+{% endblock content %}
