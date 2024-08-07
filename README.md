@@ -2,9 +2,7 @@ Building a smart classroom management system using Django involves creating a we
 
  **Features:**
 **1. Django Web Application:**
-Set up a Django project and create web pages for different user roles (teachers, students, administrators).
-Use Django templates to render dynamic content on the web pages.
-Implement user authentication and authorization.
+Set up a Django project and create web pages for different user roles (teachers, students, administrators).Use Django templates to render dynamic content on the web pages.Implement user authentication and authorization.
 **2. Classroom Scheduling:**
 Create a feature for scheduling classes and managing timetables.
 Allow teachers to input class details, including subject, time, and location.
