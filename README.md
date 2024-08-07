@@ -1,79 +1,26 @@
-# Schoolmanagement
-![developer](https://img.shields.io/badge/Developed%20By%20%3A-Sumit%20Kumar-red)
----
-## screenshots
-### Homepage
-![homepage snap](https://github.com/sumitkumar1503/schoolmanagement/blob/master/static/screenshots/homepage.png?raw=true)
-### Admin Dashboard
-![dashboard snap](https://github.com/sumitkumar1503/schoolmanagement/blob/master/static/screenshots/adminhomepage.png?raw=true)
-### Admin Manage Teacher
-![invoice snap](https://github.com/sumitkumar1503/schoolmanagement/blob/master/static/screenshots/adminteacher.png?raw=true)
-### Attendance
-![doctor snap](https://github.com/sumitkumar1503/schoolmanagement/blob/master/static/screenshots/attendance.png?raw=true)
-### Teacher Dashboard
-![doctor snap](https://github.com/sumitkumar1503/schoolmanagement/blob/master/static/screenshots/teacher.png?raw=true)
----
+Building a smart classroom management system using Django involves creating a web-based application that can handle various functionalities related to classroom management. Below is a high-level overview of the steps and fetures involved:
 
-## Functions
-### Teacher
-First the teacher will apply for job,if he/she gets selected there accounts will be made and approved by the admin, after approval only teacher can access their dashboard.
-After account approval by admin, teacher can take attendance of any class and view their attendance later.
-Teacher can also publish/announce notice to student like submission of assignments.
-
-## Student
-First student will take admission/signup.
-When their account is approved by admin, only then the student can access their dashboard.
-After account approval by admin the student can view their details like attendance.
-Student can't view attendance of other student.
-Student can't announce, they can only view.
-
-### Admin
-First admin will signup for a account.
-After login they can see how many student/teacher wants to get job/admission in their school.
-They can approve or delete/cancel the request.
-They can update any student/teacher details.
-Admin can announce notice also.
-
-
-## Drawbacks
-- On update page of teacher/student you must have to update password.
-- Anyone can become Admin
-
-## HOW TO RUN THIS PROJECT
-- Install Python(3.7.6) (Dont Forget to Tick Add to Path while installing Python)
-- Open Terminal and Execute Following Commands :
-
-``` python -m pip install -r requirements.txt ```
-
-
-- Download This Project Zip Folder and Extract it
-- Move to project folder in Terminal. Then run following Commands :
-```
-py manage.py makemigrations
-py manage.py migrate
-py manage.py runserver
-```
-- Now enter following URL in Your Browser Installed On Your Pc
-```
-http://127.0.0.1:8000/
-```
-
-## CHANGES REQUIRED FOR CONTACT US PAGE
-- In settins.py file, You have to give your email and password
-```
-EMAIL_HOST_USER = 'youremail@gmail.com'
-EMAIL_HOST_PASSWORD = 'your email password'
-EMAIL_RECEIVING_USER = 'youremail@gmail.com'
-```
-- Login to gmail through host email id in your browser and open following link and turn it ON
-```
-https://myaccount.google.com/lesssecureapps
-```
-
-## Disclaimer
-This project is developed for demo purpose and it's not supposed to be used in real application.
-
-## Feedback
-Any suggestion and feedback is welcome. You can message me on facebook
-- [Contact on Facebook](https://fb.com/sumit.luv)
-- [Subscribe my Channel LazyCoder On Youtube](https://youtube.com/lazycoders)
+ **Features:**
+**1. Django Web Application:**
+Set up a Django project and create web pages for different user roles (teachers, students, administrators).
+Use Django templates to render dynamic content on the web pages.
+Implement user authentication and authorization.
+**2. Classroom Scheduling:**
+Create a feature for scheduling classes and managing timetables.
+Allow teachers to input class details, including subject, time, and location.
+Provide a calendar view for easy visualization of the class schedule.
+**3. Attendance Management:**
+Implement an attendance tracking system.
+Generate attendance reports for teachers and administrators.
+**4. Gradebook and Assessment:**
+Include a gradebook feature for teachers to manage student grades.
+Allow teachers to input and update grades for assignments, exams, and projects.
+Provide students with access to their grades.
+**5. Communication Platform:**
+Implement a messaging system for communication between teachers, students, and administrators.
+Allow teachers to send announcements and updates to students.
+Include notification features for important events.
+**6. Resource Management:**
+Create a repository for educational resources such as documents, presentations, and videos.
+Allow teachers to upload and share resources with students.
+Implement version control for resource updates.
